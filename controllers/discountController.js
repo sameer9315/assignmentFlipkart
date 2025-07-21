@@ -59,7 +59,7 @@ class DiscountController {
       let bestOffer = null;
 
       for (const offer of offers) {
-        const discount = this.calculateDiscount(offer, amount);
+        const discount = DiscountController.calculateDiscount(offer, amount);
         if (discount > highestDiscount) {
           highestDiscount = discount;
           bestOffer = offer;

@@ -28,20 +28,14 @@ class OfferController {
       const creationPromises = [];
 
       for (const offer of extractedOffers) {
-        const promise = Offer.findOrCreate({
+        const [offerInstance, created] = await Offer.findOrCreate({
           where: { offerId: offer.offerId },
           defaults: offer,
-        }).then(([offerInstance, created]) => {
-          if (created) {
-            newOffersCreated++;
-          }
-          return { created, offer: offerInstance };
         });
-
-        creationPromises.push(promise);
+        if (created) {
+          newOffersCreated++;
+        }
       }
-
-      await Promise.all(creationPromises);
 
       res.json({
         noOfOffersIdentified: extractedOffers.length,
